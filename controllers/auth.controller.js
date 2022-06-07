@@ -1,7 +1,7 @@
-const { get } = require("express/lib/response");
+
 
 function getSignUp(req, res) {
-  //...
+  res.render('customer/auth/signup');
 }
 function getLogin(req, res) {
     //...
