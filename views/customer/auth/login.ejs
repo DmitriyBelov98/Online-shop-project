@@ -6,7 +6,7 @@
     <%- include('../../shared/includes/header') %>
     <main>
         <h1>Вход</h1>
-        <form action="/signup" method="POST" class="form">
+        <form action="/login" method="POST" class="form">
             <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
             <div class="form-content">
                 <label for="email">E-Mail</label>
