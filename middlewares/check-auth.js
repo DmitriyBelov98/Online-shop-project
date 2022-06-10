@@ -1,5 +1,6 @@
 function checkAuth(req, res, next) {
     const uid = req.session.uid;
+  
 
     if(!uid) {
         return next();
@@ -7,6 +8,7 @@ function checkAuth(req, res, next) {
 
     res.locals.uid = uid;
     res.locals.isAuth = true;
+    res.locals.isAdmin = req.session.isAdmin;
     next();
 };
 
