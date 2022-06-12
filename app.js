@@ -9,7 +9,7 @@ const expressSession = require('express-session');
 const createSessionConfig = require('./config/session');
 const addCsrfTokenMiddleware = require('./middlewares/csrf-token');
 const checkAuthStatusMiddleware = require('./middlewares/check-auth');
-
+const adminRoutes = require('./routes/admin.routes');
 const errorHandleMiddleware = require('./middlewares/error-handler');
 
 const app = express();
@@ -33,6 +33,7 @@ app.use(checkAuthStatusMiddleware);
 app.use(baseRoutes); // подключение базовых роутов
 app.use(authRoutes); // подключение всех роутов аутентификации
 app.use(productRoutes); // подключение роутов с товаром
+app.use('/admin', adminRoutes); // подключение роутов админа с фильтрованым путём
 
 
 
