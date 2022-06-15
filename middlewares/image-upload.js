@@ -1,11 +1,11 @@
 const multer = require('multer');
 const uuid = require('uuid').v4;
-
+// конфигурация объекта multer
 const upload = multer({
     storage: multer.diskStorage({
-        destination: 'product-data/images',
+        destination: 'product-data/images', // путь сохранения
         filename: function(req, file, cb) {
-            cb(null, uuid() + '-' + file.originalname);
+            cb(null, uuid() + '-' + file.originalname); // имя файла с расширением с генерацией случайного id
         }
     })
 });

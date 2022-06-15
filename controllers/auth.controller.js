@@ -1,4 +1,4 @@
-const res = require("express/lib/response");
+
 const User = require("../models/user.model");
 const authUtil = require("../util/authentication");
 const validation = require("../util/validation");

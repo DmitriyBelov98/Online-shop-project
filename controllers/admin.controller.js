@@ -1,21 +1,95 @@
-function getProducts(req, res) {
+const Product = require("../models/product.model");
 
-    res.render('admin/products/all-products');
+async function getProducts(req, res, next) {
+  try {
+    const products = await Product.findAll();
+
+    res.render("admin/products/all-products", { products: products });
+  } catch (error) {
+    next(error);
+    return;
+  }
 }
 
 function getNewProduct(req, res) {
-    res.render('admin/products/new-product');
+  res.render("admin/products/new-product");
 }
 
-function createNewProduct(req, res) {
-    console.log(req.body);
-    console.log(req.file);
+async function createNewProduct(req, res, next) {
+  const product = new Product({
+    ...req.body,
+    image: req.file.filename,
+  });
+  try {
+    await product.save();
+  } catch (error) {
+    next(error);
+    return;
+  }
 
-    res.redirect('/admin/products');
+  res.redirect("/admin/products");
 }
 
+async function getUpdateProduct(req, res, next) {
+  try {
+    const product = await Product.findById(req.params.id); // получаем значение id из url
+    res.render("admin/products/update-product", { product: product });
+  } catch (error) {
+    next(error);
+    return;
+  }
+}
+async function updateProduct(req, res, next) {
+  const product = new Product({
+    ...req.body,
+    _id: req.params.id,
+  });
+
+  if (req.file) {
+    // заменить старую картинку на новую
+    product.replaceImage(req.file.filename);
+  }
+  try {
+    await product.save();
+  } catch (error) {
+    next(error);
+    return;
+  }
+  res.redirect('/admin/products');
+  
+}
+
+async function deleteProduct(req, res, next) {
+  let product;
+  try {
+    product = await Product.findById(req.params.id);
+    await product.remove();
+  } catch (error) {
+    return next(error);
+  }
+  res.json({message: 'Deleted product!'}); // возвращение данных для ajax
+  
+}
 module.exports = {
-    getProducts: getProducts,
-    getNewProduct: getNewProduct,
-    createNewProduct: createNewProduct
-}
+  getProducts: getProducts,
+  getNewProduct: getNewProduct,
+  createNewProduct: createNewProduct,
+  getUpdateProduct: getUpdateProduct,
+  updateProduct: updateProduct,
+  deleteProduct: deleteProduct
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

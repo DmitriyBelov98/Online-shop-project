@@ -12,12 +12,14 @@ const checkAuthStatusMiddleware = require('./middlewares/check-auth');
 const adminRoutes = require('./routes/admin.routes');
 const errorHandleMiddleware = require('./middlewares/error-handler');
 
+
 const app = express();
 // подключение ejs шаблона
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static("public")); // доступ к статичным файлам браузеру
+app.use('/products/assets', express.static('product-data')); // доступ к картинкам как к статичным файлам
 
 app.use(express.urlencoded({extended: false})); // обработка вводимых данных
 
